@@ -1,17 +1,17 @@
-// dependencies
-require('@google-cloud/debug-agent').start();
-const express = require('express');
+import cloudDebug from "@google-cloud/debug-agent"
+cloudDebug.start()
+import express from "express";
 const app = express();
-const bodyParser = require('body-parser');
-const session = require("express-session");
-// import files
-const postImageRouter = require("./routes/postImage");
-const db = require("./config/database");
+import bodyParser from "body-parser"
+import session  from "express-session"
+import postImageRouter from "./routes/postImage.js";
+import db from "./config/database.js";
+import UserRoute from "./routes/UserRoute.js"
 
-// middleware
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(postImageRouter);
 app.use(express.json());
+app.use(UserRoute);
 
 (async () => {
     await db.sync();

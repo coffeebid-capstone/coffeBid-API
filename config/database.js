@@ -1,8 +1,6 @@
-// import {Sequelize} from "sequelize"
-const {Sequelize} = require("sequelize")
-const db = new Sequelize('auth_db', 'root', '', {
+import {Sequelize} from "sequelize"
+const db = new Sequelize('try_capstone', 'root', '', {
     host: "localhost",
     dialect: "mysql"
 })
-
-module.exports = db
+export default  db

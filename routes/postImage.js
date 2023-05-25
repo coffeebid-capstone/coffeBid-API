@@ -1,8 +1,8 @@
-const express = require('express')
+import express from "express";
 const router = express.Router()
-const Multer = require('multer')
-const mysql = require('mysql')
-const imgUpload = require('../modules/imgUpload')
+import Multer from "multer"
+import mysql from "mysql"
+import imgUpload from "../modules/imgUpload.js";
 
 
 const multer = Multer({
@@ -48,4 +48,4 @@ router.post("/uploadImage", multer.single('image'), imgUpload.uploadToGcs, (req,
     res.send(data)
 })
 
-module.exports = router
+export default router

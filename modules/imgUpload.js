@@ -1,7 +1,7 @@
 'use strict'
-const {Storage} = require('@google-cloud/storage')
-const dateFormat = require('dateformat')
-const path = require('path')
+import {Storage} from "@google-cloud/storage";
+import dateFormat from "dateformat"
+import path from "path"
 
 const pathKey = path.resolve('./serviceaccountkey.json')
 
@@ -47,4 +47,4 @@ ImgUpload.uploadToGcs = (req, res, next) => {
     stream.end(req.file.buffer)
 }
 
-module.exports = ImgUpload
+export default ImgUpload
