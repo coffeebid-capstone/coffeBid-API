@@ -13,7 +13,6 @@ export const register = async (req, res) => {
             address: address,
             contact: contact,
             role: role
-
         })
         res.status(201).json({msg: "Register berhasil"})
     } catch (error) {

@@ -1,5 +1,6 @@
 import {Sequelize} from "sequelize"
-const db = new Sequelize('try_capstone', 'root', '', {
+
+const db = new Sequelize('capstone', 'root', '', {
     host: "localhost",
     dialect: "mysql"
 })

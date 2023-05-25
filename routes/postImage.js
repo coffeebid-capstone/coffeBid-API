@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router()
 import Multer from "multer"
-import mysql from "mysql"
+import mysql from "mysql2"
 import imgUpload from "../modules/imgUpload.js";
 
 

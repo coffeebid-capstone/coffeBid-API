@@ -1,9 +1,10 @@
 import { Sequelize } from "sequelize"
 import db from "../config/database.js"
+import Users from "./UserModel.js"
 
 const {DataTypes} = Sequelize
 
-const Users = db.define('users',{
+const Products = db.define('product',{
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
@@ -12,7 +13,7 @@ const Users = db.define('users',{
             notEmpty: true
         }
     },
-    username:{
+    name:{
         type: DataTypes.STRING,
         allowNull: false,
         validate:{
@@ -20,37 +21,71 @@ const Users = db.define('users',{
             len: [3, 100]
         }
     },
-    email:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-            notEmpty: true,
-            isEmail: true
-        }
-    },
-    password:{
+    startDate:{
         type: DataTypes.STRING,
         allowNull: false,
         validate:{
             notEmpty: true
         }
     },
-    address:{
+    endDate:{
         type: DataTypes.STRING,
         allowNull: false,
         validate:{
             notEmpty: true
         }
     },
-    contact:{
+    productPict:{
         type: DataTypes.STRING,
         allowNull: false,
         validate:{
             notEmpty: true
         }
     },
-    role:{
+    type:{
         type: DataTypes.STRING,
+        allowNull: false,
+        validate:{
+            notEmpty: true
+        }
+    },
+    description:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate:{
+            notEmpty: true
+        }
+    },
+    openPrice:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate:{
+            notEmpty: true
+        }
+    },
+    finalPrice:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate:{
+            notEmpty: true
+        }
+    },
+    status:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate:{
+            notEmpty: true
+        }
+    },
+    winner:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate:{
+            notEmpty: true
+        }
+    },
+    userId:{
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate:{
             notEmpty: true
@@ -60,4 +95,7 @@ const Users = db.define('users',{
     freezeTableName: true
 })
 
-export default  Users
+Users.hasMany(Products)
+Products.belongsTo(Users, {foreignKey: 'userId'})
+
+export default Products
