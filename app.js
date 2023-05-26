@@ -9,15 +9,11 @@ import db from "./config/database.js";
 import UserRoute from "./routes/UserRoute.js"
 import ProductRoute from "./routes/ProductRoute.js"
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(postImageRouter);
-app.use(express.json());
-app.use(UserRoute);
-app.use(ProductRoute);
 
-(async () => {
-    await db.sync();
-})();
+
+// (async () => {
+//     await db.sync();
+// })();
 
 app.use(session({
     secret: "MM5ckam0eYhzVh6U",
@@ -27,6 +23,12 @@ app.use(session({
         secure: 'auto'
     }
 }));
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(postImageRouter);
+app.use(express.json());
+app.use(UserRoute);
+app.use(ProductRoute);
 
 app.listen(3000, () => {
     console.log("Halo Guys");

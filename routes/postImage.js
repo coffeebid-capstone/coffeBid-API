@@ -39,13 +39,5 @@ router.post("/insertrecord", multer.single('attachment'), imgUpload.uploadToGcs,
     })
 })
 
-router.post("/uploadImage", multer.single('image'), imgUpload.uploadToGcs, (req, res, next) => {
-    const data = req.body
-    if (req.file && req.file.cloudStoragePublicUrl) {
-        data.imageUrl = req.file.cloudStoragePublicUrl
-    }
-
-    res.send(data)
-})
 
 export default router

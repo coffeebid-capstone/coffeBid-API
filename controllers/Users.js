@@ -19,3 +19,28 @@ export const register = async (req, res) => {
         res.status(400).json({msg: error.message})
     }
 }
+export const getProfiles = async (req, res) => {
+    try {
+        const response = await UserModel.findAll()
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(500).json({msg: error.message})
+    }
+}
+export const getProfileById = async (req, res) => {
+    try {
+        const response = await UserModel.findOne({
+            attributes: ["uuid", "username", "email", "role"],
+            where: {
+                uuid: req.params.id
+            }
+        })
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(500).json({msg: error.message})
+    }
+}
+
+export const test = (req, res) =>{
+    res.json({ message: "Hello from server!" });
+}

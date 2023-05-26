@@ -18,7 +18,8 @@ export const getProducts = async (req, res) => {
                 }]
             })
         }
+        res.status(200).json(response)
     } catch (e) {
-
+        res.status(400).json({msg: e.message})
     }
 }
