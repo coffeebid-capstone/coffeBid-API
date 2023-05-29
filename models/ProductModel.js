@@ -2,100 +2,100 @@ import { Sequelize } from "sequelize"
 import db from "../config/database.js"
 import Users from "./UserModel.js"
 
-const {DataTypes} = Sequelize
+const { DataTypes } = Sequelize
 
-const Products = db.define('product',{
-    uuid:{
+const Products = db.define('product', {
+    uuid: {
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    name:{
+    name: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true,
             len: [3, 100]
         }
     },
-    startDate:{
+    startDate: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    endDate:{
+    endDate: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    productPict:{
+    productPict: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    type:{
+    type: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    description:{
+    description: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    openPrice:{
+    openPrice: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    finalPrice:{
+    finalPrice: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    status:{
+    status: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    winner:{
+    winner: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    userId:{
-        type: DataTypes.INTEGER,
+    userId: {
+        type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     }
-},{
+}, {
     freezeTableName: true
 })
 
 Users.hasMany(Products)
-Products.belongsTo(Users, {foreignKey: 'userId'})
+Products.belongsTo(Users, { foreignKey: 'userId' })
 
 export default Products

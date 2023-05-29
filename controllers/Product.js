@@ -24,6 +24,28 @@ export const getProducts = async (req, res) => {
     }
 }
 
+export const createProduct = async (req, res) => {
+    const { name, startDate, endDate, productPict, type, description, openPrice, finalPrice, status, winner, userId } = req.body
+    try {
+        await productModel.create({
+            name: name,
+            startDate: startDate,
+            endDate: endDate,
+            productPict: productPict,
+            type: type,
+            description: description,
+            openPrice: openPrice,
+            finalPrice: finalPrice,
+            status: status,
+            winner: winner,
+            userId: userId,
+        })
+        res.status(201).json({ msg: "Product berhasil ditambahkan" })
+    } catch (error) {
+        res.status(400).json({ msg: error.message })
+    }
+}
+
 export const getProductsByID = async (req, res) => {
     try {
         let response
