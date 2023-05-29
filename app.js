@@ -37,7 +37,7 @@ app.use(UserRoute);
 app.use(ProductRoute);
 app.use(AuthRoute);
 
-// store.sync();
+store.sync();
 
 app.listen(3000, () => {
     console.log("Halo Guys");
