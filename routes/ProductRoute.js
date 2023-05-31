@@ -1,5 +1,5 @@
 import express from "express";
-import { getProducts, getProductsByID, createProduct } from "../controllers/Product.js"
+import { getProducts, getProductsByID, deleteProduct } from "../controllers/Product.js"
 import imgUpload from "../modules/imgUpload.js";
 const router = express.Router()
 import Multer from "multer"
@@ -58,5 +58,6 @@ router.post("/api/v1/image", multer.single('image'), imgUpload.uploadToGcs, (req
     res.send(data)
 })
 router.get("/api/v1/product/:id", getProductsByID)
+router.delete("/api/v1/product/:id", deleteProduct)
 
 export default router
