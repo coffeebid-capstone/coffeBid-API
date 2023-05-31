@@ -1,9 +1,11 @@
 import express from "express";
-import { getProducts, getProductsByID, deleteProduct } from "../controllers/Product.js"
+import {getProducts, getProductsByID, deleteProduct} from "../controllers/Product.js"
 import imgUpload from "../modules/imgUpload.js";
-const router = express.Router()
 import Multer from "multer"
 import mysql from "mysql2"
+import {nanoid} from "nanoid"
+
+const router = express.Router()
 
 const multer = Multer({
     storage: Multer.MemoryStorage,
@@ -31,6 +33,7 @@ router.post("/api/v1/product", multer.single('productPict'), imgUpload.uploadToG
     const status = req.body.status
     const winner = req.body.winner
     const userId = req.body.userId
+    const uuid = nanoid(32)
 
     let imageUrl = ''
 
@@ -38,13 +41,13 @@ router.post("/api/v1/product", multer.single('productPict'), imgUpload.uploadToG
         imageUrl = req.file.cloudStoragePublicUrl
     }
 
-    const query = "INSERT INTO product (name, startDate, endDate, productPict, type, description, openPrice, finalPrice, status, winner, userId) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    const query = "INSERT INTO product (uuid, name, startDate, endDate, productPict, type, description, openPrice, finalPrice, status, winner, userId) values (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
-    connection.query(query, [name, startDate, endDate, imageUrl, type, description, openPrice, finalPrice, status, winner, userId], (err, rows, fields) => {
+    connection.query(query, [uuid, name, startDate, endDate, imageUrl, type, description, openPrice, finalPrice, status, winner, userId], (err, rows, fields) => {
         if (err) {
-            res.status(500).send({ message: err.sqlMessage })
+            res.status(500).send({message: err.sqlMessage})
         } else {
-            res.send({ message: "Insert Successful" })
+            res.send({message: "Insert Successful"})
         }
     })
 })
