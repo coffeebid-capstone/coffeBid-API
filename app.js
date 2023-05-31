@@ -14,11 +14,11 @@ const app = express();
 const sessionStore = SequelizeStore(session.Store)
 const store = new sessionStore({
     db: db
-})
+});
 
-// (async () => {
-//     await db.sync();
-// })();
+(async () => {
+    await db.sync();
+})();
 
 app.use(session({
     secret: "MM5ckam0eYhzVh6U",
