@@ -1,5 +1,5 @@
 import express from "express";
-import {getProducts, getProductsByID, deleteProduct} from "../controllers/Product.js"
+import {getProducts, getProductsByID, deleteProduct, searchProduct} from "../controllers/Product.js"
 import imgUpload from "../modules/imgUpload.js";
 import Multer from "multer"
 import mysql from "mysql2"
@@ -62,5 +62,6 @@ router.post("/api/v1/image", multer.single('image'), imgUpload.uploadToGcs, (req
 })
 router.get("/api/v1/product/:id", getProductsByID)
 router.delete("/api/v1/product/:id", deleteProduct)
+router.get("/api/v1/product/search/:name", searchProduct)
 
 export default router

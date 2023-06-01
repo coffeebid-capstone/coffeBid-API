@@ -1,6 +1,7 @@
 import productModel from "../models/ProductModel.js";
 import userModel from "../models/UserModel.js";
 import ProductModel from "../models/ProductModel.js";
+import sequelize from "sequelize"
 
 export const getProducts = async (req, res) => {
     try {
@@ -25,39 +26,6 @@ export const getProducts = async (req, res) => {
     }
 }
 
-export const createProduct = async (req, res) => {
-    const {
-        name,
-        startDate,
-        endDate,
-        productPict,
-        type,
-        description,
-        openPrice,
-        finalPrice,
-        status,
-        winner,
-        userId
-    } = req.body
-    try {
-        await productModel.create({
-            name: name,
-            startDate: startDate,
-            endDate: endDate,
-            productPict: productPict,
-            type: type,
-            description: description,
-            openPrice: openPrice,
-            finalPrice: finalPrice,
-            status: status,
-            winner: winner,
-            userId: userId,
-        })
-        res.status(201).json({msg: "Product berhasil ditambahkan"})
-    } catch (error) {
-        res.status(400).json({msg: error.message})
-    }
-}
 
 export const getProductsByID = async (req, res) => {
     try {
@@ -91,4 +59,20 @@ export const deleteProduct = async (req, res) => {
         res.status(400).json({msg: e.message})
     }
 
+}
+
+export const searchProduct = async (req, res) => {
+    try {
+        let name = req.params.name
+        const response = await ProductModel.findAll({
+            where: {
+                name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + name + '%')
+
+            }
+
+        })
+        res.status(200).json(response)
+    } catch (e) {
+        res.status(500).json({msg: e.message})
+    }
 }
