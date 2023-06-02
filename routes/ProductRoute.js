@@ -20,8 +20,9 @@ const connection = mysql.createConnection({
 })
 
 router.get("/api/v1/product", getProducts)
-// router.post("/api/v1/product", createProduct)
-
+router.get("/api/v1/product/:id", getProductsByID)
+router.delete("/api/v1/product/:id", deleteProduct)
+router.get("/api/v1/product/search/:name", searchProduct)
 router.post("/api/v1/product", multer.single('productPict'), imgUpload.uploadToGcs, (req, res) => {
     const name = req.body.name
     const startDate = req.body.startDate
@@ -52,7 +53,6 @@ router.post("/api/v1/product", multer.single('productPict'), imgUpload.uploadToG
     })
 })
 
-
 router.post("/api/v1/image", multer.single('image'), imgUpload.uploadToGcs, (req, res, next) => {
     const data = req.body
     if (req.file && req.file.cloudStoragePublicUrl) {
@@ -60,8 +60,34 @@ router.post("/api/v1/image", multer.single('image'), imgUpload.uploadToGcs, (req
     }
     res.send(data)
 })
-router.get("/api/v1/product/:id", getProductsByID)
-router.delete("/api/v1/product/:id", deleteProduct)
-router.get("/api/v1/product/search/:name", searchProduct)
+router.patch("/api/v1/product/:id", multer.single('productPict'), imgUpload.uploadToGcs, (req, res) => {
+    const name = req.body.name
+    const startDate = req.body.startDate
+    const endDate = req.body.endDate
+    const type = req.body.type
+    const description = req.body.description
+    const openPrice = req.body.openPrice
+    const finalPrice = req.body.finalPrice
+    const status = req.body.status
+    const winner = req.body.winner
+    const userId = req.body.userId
+    const uuid  = req.params
+
+    let imageUrl = ''
+
+    if (req.file && req.file.cloudStoragePublicUrl) {
+        imageUrl = req.file.cloudStoragePublicUrl
+    }
+
+    const query = "UPDATE product SET  name = ?, startDate = ?, endDate = ?, productPict = ?, type = ?, description= ?, openPrice = ?, finalPrice = ?, status =?, winner = ?, userId = ? WHERE uuid = ?"
+
+    connection.query(query, [name, startDate, endDate, imageUrl, type, description, openPrice, finalPrice, status, winner, userId, uuid], (err, rows, fields) => {
+        if (err) {
+            res.status(500).send({message: err.sqlMessage})
+        } else {
+            res.send({message: "Update Successful"})
+        }
+    })
+})
 
 export default router
