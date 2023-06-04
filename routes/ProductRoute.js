@@ -13,10 +13,10 @@ const multer = Multer({
 })
 
 const connection = mysql.createConnection({
-    host: 'localhost',
+    host: '34.101.54.231',
     user: 'root',
     database: 'capstone',
-    password: ''
+    password: 'kopi123'
 })
 
 router.get("/api/v1/product", getProducts)
