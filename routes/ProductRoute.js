@@ -1,9 +1,9 @@
 import express from "express";
-import {getProducts, getProductsByID, deleteProduct} from "../controllers/Product.js"
+import { getProducts, getProductsByID, deleteProduct } from "../controllers/Product.js"
 import imgUpload from "../modules/imgUpload.js";
 import Multer from "multer"
 import mysql from "mysql2"
-import {nanoid} from "nanoid"
+import { nanoid } from "nanoid"
 
 const router = express.Router()
 
@@ -45,13 +45,31 @@ router.post("/api/v1/product", multer.single('productPict'), imgUpload.uploadToG
 
     connection.query(query, [uuid, name, startDate, endDate, imageUrl, type, description, openPrice, finalPrice, status, winner, userId], (err, rows, fields) => {
         if (err) {
-            res.status(500).send({message: err.sqlMessage})
+            res.status(500).send({ message: err.sqlMessage })
         } else {
-            res.send({message: "Insert Successful"})
+            res.send({ message: "Insert Successful" })
         }
     })
 })
 
+router.put("/api/v1/bid", (req, res) => {
+    const uuid = req.body.uuid
+    const finalPrice = req.body.finalPrice
+    const winner = req.body.winner
+
+    const query = "UPDATE product SET finalPrice = ?, winner = ? WHERE uuid = ? AND ? > finalPrice AND ? > openPrice"
+    connection.query(query, [finalPrice, winner, uuid, finalPrice, finalPrice], (err, rows, fields) => {
+        if (err) {
+            res.status(500).send({ message: err.sqlMessage })
+        } else {
+            if (rows.affectedRows > 0) {
+                res.status(200).send({ message: `Berhasil mengupdate ${rows.affectedRows} baris` })
+            } else {
+                res.status(400).send({ message: `Tidak ada baris yang diubah` })
+            }
+        }
+    })
+})
 
 router.post("/api/v1/image", multer.single('image'), imgUpload.uploadToGcs, (req, res, next) => {
     const data = req.body
