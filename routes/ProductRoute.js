@@ -90,4 +90,19 @@ router.patch("/api/v1/product/:id", multer.single('productPict'), imgUpload.uplo
     })
 })
 
+router.get("/api/v1/products/type", (req, res) =>{
+    let query = "SELECT type FROM `product` ORDER BY `product`.`type` DESC"
+    connection.query(query,(error, results) => {
+        if (error) {
+            res.status(500).send({message: error.sqlMessage})
+        } else {
+            res.status(200).json({
+                "success": true,
+                "message": "Response Success ",
+                "data": results
+            })
+        }
+    })
+})
+
 export default router

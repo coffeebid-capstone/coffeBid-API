@@ -76,3 +76,14 @@ export const searchProduct = async (req, res) => {
         res.status(500).json({msg: e.message})
     }
 }
+
+export const getAllProductTypes = async (req, res) => {
+    try {
+        const response = ProductModel.findAll({
+            attributes: ["type"]
+        })
+        res.status(200).json(response)
+    }catch (e) {
+        res.status(500).json({msg: e.message})
+    }
+}
