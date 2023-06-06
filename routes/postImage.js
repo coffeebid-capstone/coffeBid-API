@@ -39,5 +39,57 @@ router.post("/insertrecord", multer.single('attachment'), imgUpload.uploadToGcs,
     })
 })
 
+router.post("/predict", multer.single('image'), imgUpload.uploadToGcs, (req, res) => {
+    let imageUrl = ''
+
+    if (req.file && req.file.cloudStoragePublicUrl) {
+        imageUrl = req.file.cloudStoragePublicUrl
+    }
+
+    const makePredictions = async (imagePath) => {
+        try {
+            const loadModel = async (img) => {
+                const output = {};
+                // laod model
+                console.log('Loading.......')
+                const model = await tf.node.loadSavedModel(path.join(__dirname, '..', 'ml-model'));
+                // classify
+                // output.predictions = await model.predict(img).data();
+                let predictions = await model.predict(img).data();
+                predictions = Array.from(predictions);
+                output.success = true;
+                output.message = `Success.`;
+                output.predictions = predictions;
+                res.statusCode = 200;
+                res.json(output);
+            };
+
+            await image(imagePath, async (err, imageData) => {
+                try {
+                    const image = fs.readFileSync(imagePath);
+                    let tensor = tf.node.decodeImage(image);
+                    const resizedImage = tensor.resizeNearestNeighbor([150, 150]);
+                    const batchedImage = resizedImage.expandDims(0);
+                    const input = batchedImage.toFloat().div(tf.scalar(255));
+                    await loadModel(input);
+                    // delete image file
+                    fs.unlinkSync(imagePath, (error) => {
+                        if (error) {
+                            console.error(error);
+                        }
+                    });
+                } catch (error) {
+                    res.status(500).json({ message: "Internal Server Error!" });
+                }
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    makePredictions(imageUrl)
+
+})
+
 
 export default router

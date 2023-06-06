@@ -1,6 +1,7 @@
 import productModel from "../models/ProductModel.js";
 import userModel from "../models/UserModel.js";
 import ProductModel from "../models/ProductModel.js";
+// const { Op } = require("sequelize");
 
 export const getProducts = async (req, res) => {
     try {
@@ -21,7 +22,7 @@ export const getProducts = async (req, res) => {
         }
         res.status(200).json(response)
     } catch (e) {
-        res.status(400).json({msg: e.message})
+        res.status(400).json({ msg: e.message })
     }
 }
 
@@ -53,9 +54,9 @@ export const createProduct = async (req, res) => {
             winner: winner,
             userId: userId,
         })
-        res.status(201).json({msg: "Product berhasil ditambahkan"})
+        res.status(201).json({ msg: "Product berhasil ditambahkan" })
     } catch (error) {
-        res.status(400).json({msg: error.message})
+        res.status(400).json({ msg: error.message })
     }
 }
 
@@ -69,7 +70,30 @@ export const getProductsByID = async (req, res) => {
         })
         res.status(200).json(response)
     } catch (e) {
-        return res.status(500).json({msg: e.message})
+        return res.status(500).json({ msg: e.message })
+    }
+}
+
+export const bid = async (req, res) => {
+    const { uuid, finalPrice } = req.body
+    try {
+        ProductModel.update(
+            {
+                finalPrice: finalPrice,
+                winner: req.session.userId
+            },
+            {
+                uuid: uuid,
+                [Op.gt]: openPrice,
+                [Op.gt]: finalPrice,
+            }
+        ).success(function () {
+            res.status(201).json({ msg: "Product berhasil diubah" })
+        }).error(function (err) {
+            res.status(400).json({ msg: "Product gagal diubah" })
+        });
+    } catch (e) {
+        return res.status(500).json({ msg: e.message })
     }
 }
 
@@ -79,16 +103,16 @@ export const deleteProduct = async (req, res) => {
             uuid: req.params.id
         }
     })
-    if (!product) return res.status(404).json({msg: "Product not found"})
+    if (!product) return res.status(404).json({ msg: "Product not found" })
     try {
         await ProductModel.destroy({
             where: {
                 id: product.id
             }
         })
-        res.status(200).json({msg: "Deleted"})
+        res.status(200).json({ msg: "Deleted" })
     } catch (e) {
-        res.status(400).json({msg: e.message})
+        res.status(400).json({ msg: e.message })
     }
 
 }
