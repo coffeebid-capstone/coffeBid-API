@@ -7,12 +7,12 @@ const pathKey = path.resolve('./serviceaccountkey.json')
 
 // TODO: Sesuaikan konfigurasi Storage
 const gcs = new Storage({
-    projectId: 'my-capstone-trial',
+    projectId: 'coffeebid-capstone',
     keyFilename: pathKey
 })
 
 // TODO: Tambahkan nama bucket yang digunakan
-const bucketName = 'capstone-coba-gambar'
+const bucketName = 'capstone-coffee-bid'
 const bucket = gcs.bucket(bucketName)
 
 function getPublicUrl(filename) {

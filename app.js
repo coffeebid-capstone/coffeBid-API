@@ -2,7 +2,6 @@ import cloudDebug from "@google-cloud/debug-agent"
 import express from "express";
 import bodyParser from "body-parser"
 import session from "express-session"
-import postImageRouter from "./routes/postImage.js";
 import db from "./config/database.js";
 import UserRoute from "./routes/UserRoute.js"
 import ProductRoute from "./routes/ProductRoute.js"
@@ -31,7 +30,6 @@ app.use(session({
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(postImageRouter);
 app.use(express.json());
 app.use(UserRoute);
 app.use(ProductRoute);
