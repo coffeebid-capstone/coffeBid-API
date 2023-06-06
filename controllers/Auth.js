@@ -24,7 +24,7 @@ export const profile = async (req, res) => {
         return res.status(401).json({msg: "Please login first"})
     } else {
         const user = await UserModel.findOne({
-            attributes:["uuid", "username", "email", "role" ],
+            attributes: ["id", "uuid", "username", "email", "role"],
             where: {
                 uuid: req.session.userId
             }
