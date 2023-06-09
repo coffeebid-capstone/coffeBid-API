@@ -40,21 +40,21 @@ def predict():
     x = np.expand_dims(x, axis=0)
     x = x / 255.0  # Melakukan normalisasi gambar
 
-# Melakukan prediksi menggunakan model
+    # Melakukan prediksi menggunakan model
     prediction = loaded_model.predict(x)
     if prediction[0][0] > 0.8:
-        return('Prediction : Dark')
+        return 'Prediction : Dark'
     elif prediction[0][1] > 0.8:
-        return('Prediction : Green')
+        return 'Prediction : Green'
     elif prediction[0][2] > 0.8:
-        return('Prediction : Light')
+        return 'Prediction : Light'
     elif prediction[0][3] > 0.8:
-        return('Prediction : Medium')
+        return 'Prediction : Medium'
     else:
-        return('Unknown')
+        return 'Unknown'
 
 
-@app.route("/predictQuality", methods =['POST'])
+@app.route("/predictQuality", methods=['POST'])
 def predict_quality():
     request_data = request.get_json()
 
@@ -80,11 +80,11 @@ def predict_quality():
     # Melakukan prediksi menggunakan model
     prediction = loaded_model.predict(x)
     if prediction[0][0] > 0.8:
-        return('Prediction : Defect')
+        return 'Prediction : Defect'
     elif prediction[0][1] > 0.8:
-        return('Prediction : Good')
+        return 'Prediction : Good'
     else:
-        return ('Unknown')
+        return 'Unknown'
 
 
 if __name__ == '__main__':
