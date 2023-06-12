@@ -15,9 +15,9 @@ const store = new sessionStore({
     db: db
 });
 
-(async () => {
-    await db.sync();
-})();
+// (async () => {
+//     await db.sync();
+// })();
 
 app.use(session({
     secret: "MM5ckam0eYhzVh6U",
@@ -35,9 +35,10 @@ app.use(UserRoute);
 app.use(ProductRoute);
 app.use(AuthRoute);
 
-store.sync();
+// store.sync();
 
-app.listen(3000, () => {
-    console.log("Halo Guys");
+const PORT = process.env.PORT || 8000
+app.listen(PORT, () => {
+    console.log("Halo guys " + PORT)
 })
 
