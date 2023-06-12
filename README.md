@@ -62,3 +62,7 @@ To set up the backend locally, please follow these steps:
 
    ```shell
    pyhton app.py
+
+
+# API Documentation
+The API documentation for CoffeeBid can be found in the [API Documentation file](https://www.notion.so/Speck-API-CoffeeBid-429c1496bd1d4edb828ec2400b797559). It provides detailed information about the available endpoints, request/response formats, and authentication requirements.
