@@ -16,6 +16,7 @@ export const login = async (req, res) => {
     const username = user.username
     const email = user.email
     const role = user.role
+    res.set('Custom-Header', 'Nilai-Header');
     res.status(200).json({uuid, username, email, role})
 }
 
@@ -24,7 +25,6 @@ export const profile = async (req, res) => {
         return res.status(401).json({msg: "Please login first"})
     } else {
         const user = await UserModel.findOne({
-            attributes: ["id", "uuid", "username", "email", "role"],
             where: {
                 uuid: req.session.userId
             }
